@@ -4,8 +4,15 @@
 		x check nigative numbers
 		x number of the philo against zero
 	- init table
-		x init mutex
+		x init inputs
 		x init forks
 		x init philosophers
 	- eating sleeping thinking (dies of starvation)
 	- set logic of managing all this thing
+		x create philosopher (thread)
+		x do the procces of life cycle of philos
+			x eating
+				x take forks
+				x 
+			x sleeping
+			x thinking 
