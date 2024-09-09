@@ -6,7 +6,7 @@
 /*   By: messkely <messkely@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 09:59:20 by messkely          #+#    #+#             */
-/*   Updated: 2024/08/06 11:35:18 by messkely         ###   ########.fr       */
+/*   Updated: 2024/09/09 10:22:41 by messkely         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,47 +17,50 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <limits.h>
 
-# define PHILO_MAX 400
+# define PHILO_MAX 230
 
-enum
+typedef struct s_info
 {
-	// TAKEN_A_FORK,
-	THINKING,
-	EATING,
-	SLEEPING
-};
+	int				total_eat;
+	int				death;
+	pthread_mutex_t	total_eat_lock;
+	pthread_mutex_t	write_lock;
+	pthread_mutex_t	meal_lock;
+	pthread_mutex_t	death_lock;
+}	t_info;
 
 typedef struct s_philo
 {
 	pthread_t		thread;
 	int				id;
-	int				state;
 	size_t			start_time;
 	size_t			sleep_time;
 	size_t			eat_time;
 	size_t			die_time;
+	size_t			last_meal;
 	int				philo_num;
 	int				num_times_to_eat;
-	int				dead_flag;
+	int				eating_counter;
+	int				*death;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*write_lock;
-	pthread_mutex_t	*death_lock;
-	pthread_mutex_t	*meal_lock;
+	t_info			*info;
 }	t_philo;
 
-void	ft_error(char *str);
-int		is_num(char *s);
-void	check_args_is_valid(char **av);
-void	init_table(t_philo *philos, pthread_mutex_t *forks, char **av);
-void	philos_procces(t_philo *philo);
-
+int		check_args_is_valid(char **av);
+void	init_table(t_info *init, t_philo *philos,
+			pthread_mutex_t *forks, char **av);
+int		dinner_start(t_philo *philo, pthread_mutex_t *forks);
+int		is_dead(t_philo *philo);
 long	ft_atoi(const char *str);
 int		ft_strlen(char *str);
-int		ft_isdigit(char c);
-int		ft_usleep(size_t milliseconds);
+void	ft_usleep(size_t milliseconds, t_philo *philo);
 size_t	get_current_time(void);
-void	print_message(char *str, t_philo *philo, int id);
+void	print_msg(char *str, t_philo *philo, int id);
+void	destroy_mutexes(int option, pthread_mutex_t *forks,
+			t_philo *philo, int n);
 
 #endif
+//  +212 6 01 84 99 22

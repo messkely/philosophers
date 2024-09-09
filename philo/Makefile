@@ -1,17 +1,17 @@
 NAME	= philo
 CC		= cc
-FLAGS	= -Wall -Wextra -Werror -g -pthread
+FLAGS	= -Wall -Wextra -Werror -pthread
 RM		= rm -f
 HEADER	= mandatory/philo.h
 SRC		= mandatory/philo.c mandatory/parcing.c \
-		mandatory/philo_utils.c mandatory/init_table.c \
-		mandatory/philos_procces.c
+		mandatory/init_table.c \
+		mandatory/dinner_philos.c
 OBJS	= $(SRC:.c=.o)
 
 all		: $(NAME)
 
 $(NAME)	: $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) -fsanitize=address
+	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
 %.o		: %.c $(HEADER)
 	$(CC) $(FLAGS) -c $< -o $@
@@ -23,8 +23,5 @@ fclean	: clean
 	$(RM) $(NAME)
 
 re		: fclean all
-
-test	:
-	make && make clean && clear && ./philo 5 100 100 100
 
 .PHONY	: clean
